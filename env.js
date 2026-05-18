@@ -1,3 +1,3 @@
 const ENV = {
-  BE_URL: 'https://your-app-name.onrender.com', // URL Express backend trên Render
+  BE_URL: 'https://jat-summer-event.onrender.com', // URL Express backend trên Render
 };
