@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle — JAT Event</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .puzzle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .puzzle-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .puzzle-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+    .puzzle-card.completed { border-color: rgba(6,214,160,0.4); }
+    .puzzle-card.completed::after {
+      content: '✓';
+      position: absolute;
+      top: 0.8rem; right: 0.9rem;
+      width: 22px; height: 22px;
+      background: var(--green);
+      color: #0d0d0f;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .puzzle-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .puzzle-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+      padding-right: 1.5rem;
+    }
+    /* content: \n trong JSON → <br> → xuống hàng */
+    .puzzle-content {
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.65;
+      white-space: pre-line; /* ← giữ xuống hàng từ \n trong JSON */
+    }
+    .puzzle-note {
+      font-size: 0.8rem;
+      color: var(--gold);
+      background: rgba(255,209,102,0.08);
+      border-left: 2px solid var(--gold);
+      padding: 0.4rem 0.7rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .puzzle-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .puzzle-files { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .file-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--accent3);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.65rem;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .file-link:hover { background: rgba(0,212,255,0.15); text-decoration: none; }
+    .puzzle-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      gap: 0.5rem;
+    }
+    .btn-complete { font-size: 0.8rem; padding: 0.4rem 0.9rem; }
+    .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text3); }
+    .empty-state p { margin-top: 0.5rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">Just A Team</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="puzzle.html" class="active">Puzzle</a>
+    <a href="competition.html">Competition</a>
+    <a href="leaderboard.html">Leaderboard</a>
+  </div>
+  <div id="nav-auth"></div>
+</nav>
+
+<main class="page">
+  <h1 class="section-title">Puzzle</h1>
+  <p class="section-sub">30 câu đố — hoàn thành càng nhiều, điểm càng cao</p>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="search-input" class="search-input"
+             placeholder="Tìm theo tên hoặc tag...">
+    </div>
+    <span id="puzzle-count" style="color:var(--text3);font-size:0.85rem;margin-left:auto"></span>
+  </div>
+
+  <div id="puzzle-grid" class="puzzle-grid">
+    <div class="loading-wrap"><div class="spinner"></div></div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="env.js"></script>
+<script src="app.js"></script>
+<script>
+  let ALL_PUZZLES     = [];
+  let filteredPuzzles = [];
+  let completedSet    = new Set();
+  let completedCount  = {};
+
+  // ── Render card ──────────────────────────────────────────────
+  function renderGrid(list) {
+    const grid = document.getElementById('puzzle-grid');
+    document.getElementById('puzzle-count').textContent =
+      `${list.length} / ${ALL_PUZZLES.length} puzzle`;
+
+    if (list.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <div style="font-size:2rem">🔍</div>
+        <p>Không tìm thấy puzzle nào</p></div>`;
+      return;
+    }
+
+    const user = getUser();
+    grid.innerHTML = list.map(p => {
+      const done  = completedSet.has(p.id);
+      const count = completedCount[p.id] || 0;
+      const pts   = count === 0 ? '?' : count === 1 ? 40 : Math.ceil(30 / count);
+
+      // ── Tags: chỉ render nếu có ──────────────────────────────
+      const tagsHtml = (p.tags && p.tags.length)
+        ? `<div class="puzzle-tags">
+             ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+           </div>`
+        : ''; // ← KHÔNG render div nếu tags rỗng
+
+      // ── Files: chỉ render nếu có ─────────────────────────────
+      const filesHtml = (p.files && p.files.length)
+        ? `<div class="puzzle-files">
+             ${p.files.map(f =>
+               `<a class="file-link" href="${f.url}" target="_blank">↗ ${f.label}</a>`
+             ).join('')}
+           </div>`
+        : ''; // ← KHÔNG render div nếu files rỗng
+
+      // ── Note: chỉ render nếu có và không rỗng ───────────────
+      const noteHtml = (p.note && p.note.trim())
+        ? `<div class="puzzle-note">⚠ ${p.note}</div>`
+        : ''; // ← KHÔNG render div nếu note rỗng/undefined
+
+      // ── Action button ────────────────────────────────────────
+      const actionHtml = user
+        ? (done
+            ? `<span style="font-size:0.82rem;color:var(--green)">✓ Hoàn thành</span>`
+            : `<button class="btn-primary btn-complete"
+                 onclick="completePuzzle(${p.id}, this)">Đánh dấu xong</button>`)
+        : `<span style="font-size:0.8rem;color:var(--text3)">Đăng nhập để tham gia</span>`;
+
+      // ── Card HTML ────────────────────────────────────────────
+      // content dùng white-space: pre-line → \n trong JSON tự xuống hàng
+      return `
+        <div class="puzzle-card ${done ? 'completed' : ''}"
+             data-name="${p.name.toLowerCase()}"
+             data-tags="${(p.tags || []).join(' ').toLowerCase()}">
+          <div class="puzzle-header">
+            <div class="puzzle-name">${p.name}</div>
+            <span class="badge-pts">${pts}đ</span>
+          </div>
+          <div class="puzzle-content">${p.content}</div>
+          ${noteHtml}
+          ${tagsHtml}
+          ${filesHtml}
+          <div class="puzzle-footer">
+            <span style="font-size:0.78rem;color:var(--text3)">
+              ${count > 0 ? `${count} người hoàn thành` : 'Chưa có ai'}
+            </span>
+            ${actionHtml}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Mark complete ────────────────────────────────────────────
+  async function completePuzzle(puzzleIndex, btn) {
+    btn.disabled    = true;
+    btn.textContent = 'Đang lưu...';
+    const res = await markPuzzle(puzzleIndex);
+    if (res && res.ok) {
+      completedSet.add(puzzleIndex);
+      showToast('✓ Đã đánh dấu hoàn thành!', 'success');
+      renderGrid(filteredPuzzles);
+    } else {
+      showToast(res?.msg || 'Có lỗi xảy ra, thử lại sau.', 'error');
+      btn.disabled    = false;
+      btn.textContent = 'Đánh dấu xong';
+    }
+  }
+
+  // ── Search ───────────────────────────────────────────────────
+  document.getElementById('search-input').addEventListener('input', function () {
+    const q = this.value.toLowerCase().trim();
+    filteredPuzzles = q
+      ? ALL_PUZZLES.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          (p.tags || []).some(t => t.toLowerCase().includes(q)))
+      : [...ALL_PUZZLES];
+    renderGrid(filteredPuzzles);
+  });
+
+  // ── Init ─────────────────────────────────────────────────────
+  async function init() {
+    // Load puzzles.json tĩnh trước — không phụ thuộc BE
+    try {
+      const res   = await fetch('puzzles.json');
+      ALL_PUZZLES = await res.json();
+      filteredPuzzles = [...ALL_PUZZLES];
+    } catch (e) {
+      document.getElementById('puzzle-grid').innerHTML =
+        `<div class="empty-state" style="grid-column:1/-1">
+          <div style="font-size:2rem">⚠️</div>
+          <p>Không tải được puzzles.json.</p>
+        </div>`;
+      return;
+    }
+
+    renderGrid(filteredPuzzles);
+
+    // Lấy thêm: completedCounts + trạng thái của user hiện tại
+    try {
+      const [lbRes, playerRes] = await Promise.all([
+        apiGet('/api/leaderboard/full'),
+        getUser() ? fetchPlayerData(getUser().uid) : Promise.resolve(null),
+      ]);
+
+      if (lbRes?.ok && lbRes.completedCounts) {
+        completedCount = lbRes.completedCounts;
+      }
+      if (playerRes?.ok) {
+        playerRes.data.quizzes.forEach((done, i) => {
+          if (done) completedSet.add(i);
+        });
+      }
+      renderGrid(filteredPuzzles);
+    } catch (e) {
+      console.warn('BE không phản hồi, hiển thị puzzle không có thông tin điểm:', e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

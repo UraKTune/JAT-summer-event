@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>osu! Tournament</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 20%, rgba(255,107,157,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 80% 80%, rgba(0,212,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      max-width: 480px;
+      color: var(--text2);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s forwards;
+    }
+    .hero-auth {
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+    .hero-logged-in {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 1.4rem;
+    }
+    .hero-logged-in img {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      object-fit: cover;
+    }
+    .hero-logged-in-text strong {
+      font-family: var(--font-display);
+      font-weight: 700;
+      display: block;
+      font-size: 0.95rem;
+    }
+    .hero-logged-in-text span { font-size: 0.8rem; color: var(--green); }
+
+    /* Rules */
+    .rules-section {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+    .rules-heading {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text3);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .rules-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 1.6rem;
+    }
+    .rule-line {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .rule-line:last-child { border-bottom: none; }
+    .rule-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.5rem;
+    }
+    .rules-note {
+      text-align: center;
+      margin-top: 0.85rem;
+      font-size: 0.76rem;
+      color: var(--text3);
+      font-style: italic;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">Just A Team</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="puzzle.html">Puzzle</a>
+    <a href="competition.html">Competition</a>
+    <a href="leaderboard.html">Leaderboard</a>
+  </div>
+  <div id="nav-auth"></div>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">JAT Event</p>
+  <h1 class="hero-title">1<br>2<br><span class="highlight">3</span></h1>
+  <p class="hero-sub">Capture The Achievement - JAT edition</p>
+  <div class="hero-auth" id="hero-auth-wrap"></div>
+</section>
+
+<section class="rules-section">
+  <p class="rules-heading">Quy tắc tham gia</p>
+  <div class="rules-box" id="rules-box"></div>
+  <p class="rules-note">Luật có thể được cập nhật trong quá trình diễn ra sự kiện.</p>
+</section>
+
+<div id="toast"></div>
+<script src="env.js"></script>
+<script src="app.js"></script>
+<script>
+  // ==========================================
+  // ĐIỀN LUẬT VÀO ĐÂY — mỗi phần tử là 1 dòng
+  // ==========================================
+  const RULES = [
+    
+  ];
+
+  function renderHeroAuth() {
+    const user = getUser();
+    const wrap = document.getElementById('hero-auth-wrap');
+    if (user) {
+      wrap.innerHTML = `
+        <div class="hero-logged-in">
+          <img src="${user.avatar}" alt="${user.name}">
+          <div class="hero-logged-in-text">
+            <strong>${user.name}</strong>
+            <span>✓ Đã đăng nhập</span>
+          </div>
+          <a href="puzzle.html" class="btn-primary">Bắt đầu →</a>
+        </div>`;
+    } else {
+      wrap.innerHTML = `
+        <button class="btn-login" onclick="loginWithOsu()">
+          <img src="./Osu!Logo.png" height="16" alt="osu">
+          Đăng nhập bằng osu!
+        </button>`;
+    }
+  }
+
+  function renderRules() {
+    document.getElementById('rules-box').innerHTML = RULES.map(r => `
+      <div class="rule-line">
+        <span class="rule-dot"></span>
+        <span>${r}</span>
+      </div>`).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderHeroAuth();
+    renderRules();
+  });
+</script>
+</body>
+</html>

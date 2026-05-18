@@ -1,0 +1,286 @@
+[
+  {
+    "id": 0,
+    "name": "Puzzle 1 — Nhịp điệu cơ bản",
+    "content": "Nghe đoạn audio và xác định BPM của bài nhạc. Nộp số BPM chính xác.",
+    "note": "Làm tròn đến số nguyên gần nhất.",
+    "tags": ["audio", "beginner"],
+    "files": [
+      { "label": "Tải file mp3", "url": "https://example.com/puzzle1.mp3" }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Puzzle 2 — Đọc bản đồ",
+    "content": "Xem ảnh beatmap đính kèm và đếm tổng số hit circle xuất hiện trong đoạn 0:30 – 1:00.",
+    "note": "",
+    "tags": ["visual", "beginner"],
+    "files": [
+      { "label": "Xem ảnh", "url": "https://example.com/puzzle2.png" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Puzzle 3 — Tên bài hát ẩn",
+    "content": "Dựa vào gợi ý sau để đoán tên bài hát: \"4 chữ cái, thể loại electronic, ra mắt 2018, có trong Featured Artist.\"",
+    "note": "Chỉ nhập tên bài, không cần tên nghệ sĩ.",
+    "tags": ["knowledge", "intermediate"],
+    "files": []
+  },
+  {
+    "id": 3,
+    "name": "Puzzle 4 — Slider velocity",
+    "content": "File .osu đính kèm chứa một slider. Tính slider velocity thực tế (SV) tại timestamp 00:45:000.",
+    "note": "Đơn vị: x (ví dụ: 1.8x).",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle4.osu" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Puzzle 5 — Màu combo",
+    "content": "Beatmap đính kèm có bao nhiêu màu combo khác nhau? Liệt kê mã hex của từng màu.",
+    "note": "",
+    "tags": ["visual", "beginner"],
+    "files": [
+      { "label": "Tải beatmap", "url": "https://example.com/puzzle5.osz" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Puzzle 6 — Timing point",
+    "content": "Mở file .osu và tìm timestamp của timing point thứ 3. Nộp đúng định dạng mm:ss:mmm.",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle6.osu" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Puzzle 7 — Tên mapper",
+    "content": "Beatmap set ID: 114514. Ai là người mapper bản difficulty \"Insane\" đầu tiên được ranked?",
+    "note": "",
+    "tags": ["knowledge", "beginner"],
+    "files": []
+  },
+  {
+    "id": 7,
+    "name": "Puzzle 8 — Stream count",
+    "content": "File audio đính kèm — đếm số note trong stream dài nhất (liên tiếp ≥ 9 note, khoảng cách ≤ 1/4 beat).",
+    "note": "",
+    "tags": ["audio", "hard"],
+    "files": [
+      { "label": "Nghe audio", "url": "https://example.com/puzzle8.mp3" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Puzzle 9 — AR & OD",
+    "content": "Cho biết AR=9, OD=8. Tính hit window (ms) cho 300 và 100. Nộp dạng: 300ms|100ms.",
+    "note": "Dùng công thức chuẩn của osu!standard.",
+    "tags": ["technical", "hard"],
+    "files": []
+  },
+  {
+    "id": 9,
+    "name": "Puzzle 10 — Hình ảnh ẩn",
+    "content": "Ảnh đính kèm là screenshot của một beatmap nổi tiếng với phần nền bị xóa. Đây là map gì?",
+    "note": "Nộp: Tên bài – Tên artist.",
+    "tags": ["visual", "intermediate"],
+    "files": [
+      { "label": "Xem ảnh", "url": "https://example.com/puzzle10.png" }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Puzzle 11 — Drain time",
+    "content": "Tính drain time (giây) của beatmap đính kèm. Drain time = tổng thời gian có note, bỏ qua break time.",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle11.osu" }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Puzzle 12 — Spinner bonus",
+    "content": "Spinner trong file đính kèm bắt đầu tại 01:20:000 và kết thúc 01:22:500. Với OD=7, cần tối thiểu bao nhiêu vòng để không bị miss?",
+    "note": "",
+    "tags": ["technical", "hard"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle12.osu" }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Puzzle 13 — Waveform",
+    "content": "Nhìn vào waveform đính kèm và xác định đây là thể loại nhạc gì (EDM / Jazz / Classical / Rock)?",
+    "note": "",
+    "tags": ["audio", "beginner"],
+    "files": [
+      { "label": "Xem waveform", "url": "https://example.com/puzzle13.png" }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Puzzle 14 — Tag tìm kiếm",
+    "content": "Tìm trên osu! website một beatmap thỏa mãn: BPM=175, Star Rating 5.5–6.0, mode=osu!standard, status=ranked, có chứa từ \"night\" trong tên. Nộp beatmap ID.",
+    "note": "",
+    "tags": ["knowledge", "intermediate"],
+    "files": []
+  },
+  {
+    "id": 14,
+    "name": "Puzzle 15 — Kiai time",
+    "content": "File .osu đính kèm có bao nhiêu đoạn Kiai Time? Nộp tổng số đoạn (mỗi ON-OFF là 1 đoạn).",
+    "note": "",
+    "tags": ["technical", "beginner"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle15.osu" }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Puzzle 16 — Diff spread",
+    "content": "Beatmap set đính kèm có bao nhiêu difficulty? Liệt kê tên và star rating của từng diff theo thứ tự tăng dần.",
+    "note": "",
+    "tags": ["knowledge", "beginner"],
+    "files": [
+      { "label": "Tải beatmap set", "url": "https://example.com/puzzle16.osz" }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Puzzle 17 — Hit sound",
+    "content": "File .osu đính kèm dùng hitsound gì tại note đầu tiên? (Normal / Soft / Drum và Whistle / Finish / Clap / None)",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle17.osu" }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Puzzle 18 — Featured Artist",
+    "content": "Nghệ sĩ nào trong danh sách osu! Featured Artist có nhiều beatmap ranked nhất tính đến tháng 1/2024?",
+    "note": "",
+    "tags": ["knowledge", "hard"],
+    "files": []
+  },
+  {
+    "id": 18,
+    "name": "Puzzle 19 — Storyboard",
+    "content": "File .osb đính kèm có bao nhiêu sprite được khai báo? Đếm số dòng bắt đầu bằng \"Sprite,\".",
+    "note": "",
+    "tags": ["technical", "hard"],
+    "files": [
+      { "label": "Tải file .osb", "url": "https://example.com/puzzle19.osb" }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Puzzle 20 — Note density",
+    "content": "Tính NPS (notes per second) trung bình của đoạn từ 01:00:000 đến 01:30:000 trong file .osu đính kèm.",
+    "note": "Làm tròn đến 2 chữ số thập phân.",
+    "tags": ["technical", "hard"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle20.osu" }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Puzzle 21 — Âm nhạc lý thuyết",
+    "content": "Nghe đoạn audio đính kèm và xác định key signature (ví dụ: C major, A minor, ...).",
+    "note": "",
+    "tags": ["audio", "hard"],
+    "files": [
+      { "label": "Nghe audio", "url": "https://example.com/puzzle21.mp3" }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Puzzle 22 — Combo multiplier",
+    "content": "Giả sử bạn đạt full combo trên map đính kèm với toàn 300. Tổng score là bao nhiêu? (không mod)",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle22.osu" }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Puzzle 23 — CS và hit circle",
+    "content": "Với CS=5, tính đường kính của hit circle theo đơn vị osu!pixel.",
+    "note": "Công thức: diameter = 108.848 - 8.9646 × CS",
+    "tags": ["technical", "intermediate"],
+    "files": []
+  },
+  {
+    "id": 23,
+    "name": "Puzzle 24 — Ranked date",
+    "content": "Beatmap \"Freedom Dive\" của xi được ranked vào ngày tháng năm nào? Nộp định dạng DD/MM/YYYY.",
+    "note": "",
+    "tags": ["knowledge", "beginner"],
+    "files": []
+  },
+  {
+    "id": 24,
+    "name": "Puzzle 25 — Break point",
+    "content": "File .osu đính kèm có bao nhiêu break section? Nộp tổng số giây của tất cả các break cộng lại.",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle25.osu" }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Puzzle 26 — Mod combination",
+    "content": "Kết hợp DT + HR trên map có AR=9, OD=8. AR và OD mới sau khi áp mod là bao nhiêu?",
+    "note": "Nộp dạng: AR|OD",
+    "tags": ["technical", "hard"],
+    "files": []
+  },
+  {
+    "id": 26,
+    "name": "Puzzle 27 — Slider end",
+    "content": "Slider trong file đính kèm có bao nhiêu slider tick? Tính theo tick rate trong file.",
+    "note": "",
+    "tags": ["technical", "hard"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle27.osu" }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Puzzle 28 — Skin element",
+    "content": "Skin đính kèm thiếu bao nhiêu element bắt buộc so với skin mặc định của osu!? Liệt kê tên file còn thiếu.",
+    "note": "",
+    "tags": ["visual", "hard"],
+    "files": [
+      { "label": "Tải skin", "url": "https://example.com/puzzle28.zip" }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Puzzle 29 — Mania column",
+    "content": "File .osu mania đính kèm dùng key mode nào? Đếm số note ở mỗi cột và nộp dạng: C1|C2|C3|...",
+    "note": "",
+    "tags": ["technical", "intermediate"],
+    "files": [
+      { "label": "Tải file .osu", "url": "https://example.com/puzzle29.osu" }
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Puzzle 30 — Grand Finale",
+    "content": "Kết hợp kiến thức từ tất cả các puzzle trước. File đính kèm là một beatmap bí ẩn — tìm ra tên bài, artist, mapper, ngày ranked và star rating chính xác.",
+    "note": "Nộp đầy đủ 5 thông tin, mỗi thông tin trên 1 dòng.",
+    "tags": ["knowledge", "technical", "audio", "hard"],
+    "files": [
+      { "label": "Tải beatmap bí ẩn", "url": "https://example.com/puzzle30.osz" }
+    ]
+  }
+]

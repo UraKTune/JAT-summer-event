@@ -1,0 +1,52 @@
+[
+  {
+    "id": 0,
+    "name": "Challenge 1 — High Score",
+    "scoreLabel": "Tổng Score",
+    "content": "Chơi map bên dưới và đạt tổng score cao nhất. Tải scores từ osu! và chọn lần chơi tốt nhất.",
+    "note": "Không được dùng mod tăng score (DT, HR).",
+    "files": [
+      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_1" }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Challenge 2 — Full Combo",
+    "scoreLabel": "Số miss",
+    "content": "Chơi map bên dưới và cố gắng có ít miss nhất. Tải scores và chọn lần có ít miss nhất.",
+    "note": "Nộp đúng số miss (X), không phải slider break.",
+    "files": [
+      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_2" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Challenge 3 — Accuracy",
+    "scoreLabel": "Accuracy (%)",
+    "content": "Chơi map bên dưới và đạt accuracy cao nhất. Tải scores và chọn lần có accuracy cao nhất.",
+    "note": "Hiển thị đến 2 chữ số thập phân. VD: 97.83",
+    "files": [
+      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_3" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Challenge 4 — Max Combo",
+    "scoreLabel": "Max Combo",
+    "content": "Chơi map bên dưới và đạt max combo cao nhất. Tải scores và chọn lần có combo cao nhất.",
+    "note": "Xem max combo ở góc trên bên trái màn hình kết quả.",
+    "files": [
+      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_4" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Challenge 5 — Speed Run",
+    "scoreLabel": "Thời gian (giây)",
+    "content": "Hoàn thành map bên dưới với mod DT nhanh nhất. Tải scores và chọn lần nhanh nhất.",
+    "note": "Bắt buộc dùng mod DT.",
+    "files": [
+      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_5" }
+    ]
+  }
+]

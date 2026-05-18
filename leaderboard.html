@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard — osu! Tournament</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lb-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .lb-refresh-info {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.82rem; color: var(--text3);
+      padding-bottom: 0.25rem;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.7); }
+    }
+
+    /* Podium */
+    .podium {
+      display: flex; align-items: flex-end;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+    .podium-item {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.4rem;
+    }
+    .podium-item img {
+      border-radius: 50%; object-fit: cover;
+      border: 3px solid transparent;
+    }
+    .podium-item.p1 img { width: 72px; height: 72px; border-color: var(--gold); }
+    .podium-item.p2 img { width: 56px; height: 56px; border-color: var(--silver); }
+    .podium-item.p3 img { width: 48px; height: 48px; border-color: var(--bronze); }
+    .podium-name {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+      max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .podium-pts { font-family: var(--font-display); font-weight: 800; }
+    .p1 .podium-pts { color: var(--gold);   font-size: 1.15rem; }
+    .p2 .podium-pts { color: var(--silver); font-size: 1rem; }
+    .p3 .podium-pts { color: var(--bronze); font-size: 0.9rem; }
+    .podium-stand {
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      width: 76px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 800; font-size: 1.1rem;
+    }
+    .p1 .podium-stand { height: 68px; background: rgba(255,209,102,0.13); color: var(--gold);   border: 1px solid rgba(255,209,102,0.3); }
+    .p2 .podium-stand { height: 48px; background: rgba(176,184,204,0.09); color: var(--silver); border: 1px solid rgba(176,184,204,0.2); }
+    .p3 .podium-stand { height: 34px; background: rgba(205,127,74,0.09);  color: var(--bronze); border: 1px solid rgba(205,127,74,0.2); }
+
+    /* Table card */
+    .lb-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* Scrollable table wrapper */
+    .table-scroll { overflow-x: auto; }
+
+    table.lb-table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .lb-table thead tr {
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lb-table th {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text3);
+      padding: 0.7rem 1.1rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .lb-table th.right,
+    .lb-table td.right { text-align: right; }
+
+    .lb-table td {
+      padding: 0.8rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .lb-table tbody tr:last-child td { border-bottom: none; }
+    .lb-table tbody tr { transition: background 0.15s; }
+    .lb-table tbody tr:hover { background: var(--bg3); }
+    .lb-table tbody tr.me-row td { background: rgba(255,107,157,0.05); }
+
+    /* Rank cell */
+    .lb-rank {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1rem;
+      width: 44px; text-align: center;
+    }
+
+    /* Player cell */
+    .player-cell { display: flex; align-items: center; gap: 0.65rem; }
+    .player-cell img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+    .player-name { font-weight: 500; }
+    .me-badge {
+      font-size: 0.68rem;
+      color: var(--accent);
+      background: rgba(255,107,157,0.12);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.3rem;
+    }
+
+    /* Pts cells */
+    .pts-puzzle {
+      font-family: var(--font-display);
+      font-weight: 700; color: var(--accent3);
+    }
+    .pts-comp {
+      font-family: var(--font-display);
+      font-weight: 700; color: var(--accent2);
+    }
+    .pts-total {
+      font-family: var(--font-display);
+      font-weight: 800; font-size: 1.05rem; color: var(--accent);
+    }
+
+    /* Change indicator */
+    .change-up   { color: var(--green); font-size: 0.75rem; }
+    .change-down { color: #ff6b6b;      font-size: 0.75rem; }
+    .change-same { color: var(--text3); font-size: 0.75rem; }
+
+    /* Empty */
+    .empty-lb { text-align: center; padding: 4rem 2rem; color: var(--text3); }
+    .empty-lb p { margin-top: 0.5rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">osu<span>!</span>Tournament</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="puzzle.html">Puzzle</a>
+    <a href="competition.html">Competition</a>
+    <a href="leaderboard.html" class="active">Leaderboard</a>
+  </div>
+  <div id="nav-auth"></div>
+</nav>
+
+<main class="page">
+  <div class="lb-header">
+    <div>
+      <h1 class="section-title">Leaderboard</h1>
+      <p class="section-sub" style="margin-bottom:0">
+        Tổng điểm Puzzle + Competition của tất cả người tham gia
+      </p>
+    </div>
+    <div class="lb-refresh-info">
+      <div class="live-dot"></div>
+      <span>Cập nhật sau <span id="countdown">60</span>s</span>
+    </div>
+  </div>
+
+  <!-- PODIUM -->
+  <div id="podium" class="podium"></div>
+
+  <!-- TABLE -->
+  <div class="lb-card">
+    <div class="table-scroll">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th style="width:50px">#</th>
+            <th>Người chơi</th>
+            <th class="right">Puzzle</th>
+            <th class="right">Competition</th>
+            <th class="right">Tổng điểm</th>
+          </tr>
+        </thead>
+        <tbody id="lb-body">
+          <tr>
+            <td colspan="5">
+              <div class="loading-wrap"><div class="spinner"></div></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+<script src="env.js"></script>
+<script src="app.js"></script>
+<script>
+  let countdown = 60;
+  let cdTimer;
+
+  // ---- Podium ----
+  function renderPodium(players) {
+    const el = document.getElementById('podium');
+    if (players.length < 1) { el.innerHTML = ''; return; }
+
+    // Thứ tự hiển thị: 2 — 1 — 3
+    const slots = [
+      { p: players[1] || null, cls: 'p2', rank: 2 },
+      { p: players[0] || null, cls: 'p1', rank: 1 },
+      { p: players[2] || null, cls: 'p3', rank: 3 },
+    ];
+
+    el.innerHTML = slots.map(({ p, cls, rank }) => {
+      if (!p) return `<div style="width:76px"></div>`;
+      const avatar = `https://a.ppy.sh/${p.osu_id}`;
+      return `
+        <div class="podium-item ${cls}">
+          <img src="${avatar}" alt="${p.name}"
+               onerror="this.src='https://osu.ppy.sh/assets/images/favicon-32x32.png'">
+          <div class="podium-name" title="${p.name}">${p.name}</div>
+          <div class="podium-pts">${p.total}đ</div>
+          <div class="podium-stand">${rank}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // ---- Table ----
+  function renderTable(players) {
+    const body = document.getElementById('lb-body');
+    const user = getUser();
+    const rankColors = ['rank-1', 'rank-2', 'rank-3'];
+
+    if (players.length === 0) {
+      body.innerHTML = `<tr><td colspan="5">
+        <div class="empty-lb">
+          <div style="font-size:2.5rem">🏆</div>
+          <p>Chưa có ai lên bảng xếp hạng</p>
+        </div></td></tr>`;
+      return;
+    }
+
+    body.innerHTML = players.map((p, i) => {
+      const isMe   = user && String(p.osu_id) === String(user.uid);
+      const avatar = `https://a.ppy.sh/${p.osu_id}`;
+
+      const compTotal = p.comp_point || 0;
+
+      return `
+        <tr class="${isMe ? 'me-row' : ''}">
+          <td class="lb-rank ${rankColors[i] || ''}">${i + 1}</td>
+          <td>
+            <div class="player-cell">
+              <img src="${avatar}" alt="${p.name}"
+                   onerror="this.src='https://osu.ppy.sh/assets/images/favicon-32x32.png'">
+              <span class="player-name">${p.name}</span>
+              ${isMe ? '<span class="me-badge">bạn</span>' : ''}
+            </div>
+          </td>
+          <td class="right pts-puzzle">${p.puzzle_point || 0} point</td>
+          <td class="right pts-comp">${compTotal} point</td>
+          <td class="right pts-total">${p.total || 0} point</td>
+        </tr>`;
+    }).join('');
+  }
+
+  // ---- Load ----
+  async function loadData() {
+    const res = await fetchLeaderboard();
+    if (!res || !res.ok) {
+      showToast('Không thể tải leaderboard', 'error');
+      return;
+    }
+    renderPodium(res.data);
+    renderTable(res.data);
+    resetCountdown();
+  }
+
+  // ---- Countdown ----
+  function resetCountdown() {
+    countdown = 60;
+    clearInterval(cdTimer);
+    cdTimer = setInterval(() => {
+      countdown--;
+      const el = document.getElementById('countdown');
+      if (el) el.textContent = countdown;
+      if (countdown <= 0) loadData();
+    }, 1000);
+  }
+
+  // ---- Toast ----
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + type;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.className = '', 3000);
+  }
+
+  document.addEventListener('DOMContentLoaded', loadData);
+</script>
+</body>
+</html>
