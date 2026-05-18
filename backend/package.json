@@ -1,5 +1,5 @@
 {
-  "name": "cta-jat-backend",
+  "name": "jat-summer-event-backend",
   "version": "1.0.0",
   "type": "module",
   "main": "server.js",
