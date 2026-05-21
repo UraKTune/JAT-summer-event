@@ -1,5 +1,5 @@
 {
-  "name": "jat-summer-event-backend",
+  "name": "jat-summer-backend",
   "version": "1.0.0",
   "type": "module",
   "main": "server.js",
@@ -12,6 +12,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "node-fetch": "^3.3.2"
+    "connect-pg-simple": "^9.0.1",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.11.5"
   }
 }

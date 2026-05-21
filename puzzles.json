@@ -1,286 +1,379 @@
 [
   {
     "id": 0,
-    "name": "Puzzle 1 — Nhịp điệu cơ bản",
-    "content": "Nghe đoạn audio và xác định BPM của bài nhạc. Nộp số BPM chính xác.",
-    "note": "Làm tròn đến số nguyên gần nhất.",
-    "tags": ["audio", "beginner"],
-    "files": [
-      { "label": "Tải file mp3", "url": "https://example.com/puzzle1.mp3" }
-    ]
+    "name": "The Higher the Pedestal, the Harder the Stare",
+    "content": "Get pp equal your follower count (rounded up).",
+    "note": "pp value phải bằng số follower của bạn (làm tròn lên).",
+    "tags": [
+      "any map",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 1,
-    "name": "Puzzle 2 — Đọc bản đồ",
-    "content": "Xem ảnh beatmap đính kèm và đếm tổng số hit circle xuất hiện trong đoạn 0:30 – 1:00.",
+    "name": "The Weight of the World",
+    "content": "Pass the top difficulty of any difficulty in the listed mapset.",
     "note": "",
-    "tags": ["visual", "beginner"],
-    "files": [
-      { "label": "Xem ảnh", "url": "https://example.com/puzzle2.png" }
-    ]
+    "tags": [
+      "pass",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 2,
-    "name": "Puzzle 3 — Tên bài hát ẩn",
-    "content": "Dựa vào gợi ý sau để đoán tên bài hát: \"4 chữ cái, thể loại electronic, ra mắt 2018, có trong Featured Artist.\"",
-    "note": "Chỉ nhập tên bài, không cần tên nghệ sĩ.",
-    "tags": ["knowledge", "intermediate"],
-    "files": []
+    "name": "Where is he?",
+    "content": "Pass this map.",
+    "note": "",
+    "tags": [
+      "pass",
+      "beginner"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 3,
-    "name": "Puzzle 4 — Slider velocity",
-    "content": "File .osu đính kèm chứa một slider. Tính slider velocity thực tế (SV) tại timestamp 00:45:000.",
-    "note": "Đơn vị: x (ví dụ: 1.8x).",
-    "tags": ["technical", "intermediate"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle4.osu" }
-    ]
+    "name": "🦋🗡️",
+    "content": "Pass this map.",
+    "note": "",
+    "tags": [
+      "pass",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 4,
-    "name": "Puzzle 5 — Màu combo",
-    "content": "Beatmap đính kèm có bao nhiêu màu combo khác nhau? Liệt kê mã hex của từng màu.",
+    "name": "Puzzle 5",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["visual", "beginner"],
-    "files": [
-      { "label": "Tải beatmap", "url": "https://example.com/puzzle5.osz" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 5,
-    "name": "Puzzle 6 — Timing point",
-    "content": "Mở file .osu và tìm timestamp của timing point thứ 3. Nộp đúng định dạng mm:ss:mmm.",
+    "name": "Puzzle 6",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["technical", "intermediate"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle6.osu" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 6,
-    "name": "Puzzle 7 — Tên mapper",
-    "content": "Beatmap set ID: 114514. Ai là người mapper bản difficulty \"Insane\" đầu tiên được ranked?",
+    "name": "Puzzle 7",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["knowledge", "beginner"],
-    "files": []
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 7,
-    "name": "Puzzle 8 — Stream count",
-    "content": "File audio đính kèm — đếm số note trong stream dài nhất (liên tiếp ≥ 9 note, khoảng cách ≤ 1/4 beat).",
+    "name": "Telegrapher",
+    "content": "Listen to the morse code audio and figure out the answer.\nThen pass the map.",
     "note": "",
-    "tags": ["audio", "hard"],
+    "tags": [
+      "pass",
+      "beginner",
+      "morse"
+    ],
     "files": [
-      { "label": "Nghe audio", "url": "https://example.com/puzzle8.mp3" }
-    ]
+      {
+        "label": "morse.wav",
+        "url": "https://PLACEHOLDER/morse.wav"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 8,
-    "name": "Puzzle 9 — AR & OD",
-    "content": "Cho biết AR=9, OD=8. Tính hit window (ms) cho 300 và 100. Nộp dạng: 300ms|100ms.",
-    "note": "Dùng công thức chuẩn của osu!standard.",
-    "tags": ["technical", "hard"],
-    "files": []
+    "name": "The Map Has Been Modified",
+    "content": "Submit a score on this map.",
+    "note": "Load via .osz link below.",
+    "tags": [
+      "submit",
+      "beginner"
+    ],
+    "files": [
+      {
+        "label": "Download .osz",
+        "url": "https://osu.ppy.sh/osu/6872"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 9,
-    "name": "Puzzle 10 — Hình ảnh ẩn",
-    "content": "Ảnh đính kèm là screenshot của một beatmap nổi tiếng với phần nền bị xóa. Đây là map gì?",
-    "note": "Nộp: Tên bài – Tên artist.",
-    "tags": ["visual", "intermediate"],
-    "files": [
-      { "label": "Xem ảnh", "url": "https://example.com/puzzle10.png" }
-    ]
+    "name": "Pattern",
+    "content": "Find the pattern, then pass this map.",
+    "note": "",
+    "tags": [
+      "pass",
+      "beginner",
+      "pattern"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 10,
-    "name": "Puzzle 11 — Drain time",
-    "content": "Tính drain time (giây) của beatmap đính kèm. Drain time = tổng thời gian có note, bỏ qua break time.",
-    "note": "",
-    "tags": ["technical", "intermediate"],
+    "name": "We Have Watched it Before",
+    "content": "Watch the video, then pass this map.\nNF is allowed.",
+    "note": "NF allowed. NC is NOT allowed.",
+    "tags": [
+      "pass",
+      "mod:DT",
+      "beginner"
+    ],
     "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle11.osu" }
-    ]
+      {
+        "label": "Watch video",
+        "url": "https://youtu.be/tcZDu00O0iA"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 11,
-    "name": "Puzzle 12 — Spinner bonus",
-    "content": "Spinner trong file đính kèm bắt đầu tại 01:20:000 và kết thúc 01:22:500. Với OD=7, cần tối thiểu bao nhiêu vòng để không bị miss?",
+    "name": "osu! Music Combine Quiz",
+    "content": "Same rhythm, same voice — pass both top difficulties.",
     "note": "",
-    "tags": ["technical", "hard"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle12.osu" }
-    ]
+    "tags": [
+      "pass",
+      "intermediate",
+      "music"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 12,
-    "name": "Puzzle 13 — Waveform",
-    "content": "Nhìn vào waveform đính kèm và xác định đây là thể loại nhạc gì (EDM / Jazz / Classical / Rock)?",
+    "name": "Missing Letter",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["audio", "beginner"],
-    "files": [
-      { "label": "Xem waveform", "url": "https://example.com/puzzle13.png" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 13,
-    "name": "Puzzle 14 — Tag tìm kiếm",
-    "content": "Tìm trên osu! website một beatmap thỏa mãn: BPM=175, Star Rating 5.5–6.0, mode=osu!standard, status=ranked, có chứa từ \"night\" trong tên. Nộp beatmap ID.",
-    "note": "",
-    "tags": ["knowledge", "intermediate"],
-    "files": []
+    "name": "Not Too Late for Challenge",
+    "content": "Pass yesterday's daily challenger map.",
+    "note": "Not really.",
+    "tags": [
+      "pass",
+      "daily"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 14,
-    "name": "Puzzle 15 — Kiai time",
-    "content": "File .osu đính kèm có bao nhiêu đoạn Kiai Time? Nộp tổng số đoạn (mỗi ON-OFF là 1 đoạn).",
-    "note": "",
-    "tags": ["technical", "beginner"],
+    "name": "\"if he fc it, i fucking, i quitting osu forever\" o7",
+    "content": "Pass this map with HRNFSV2.",
+    "note": "Mod required: HR + NF + ScoreV2.",
+    "tags": [
+      "pass",
+      "mod:HR",
+      "expert"
+    ],
     "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle15.osu" }
-    ]
+      {
+        "label": "Watch reaction",
+        "url": "https://youtu.be/eY5qt6yWhg4?t=58"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 15,
-    "name": "Puzzle 16 — Diff spread",
-    "content": "Beatmap set đính kèm có bao nhiêu difficulty? Liệt kê tên và star rating của từng diff theo thứ tự tăng dần.",
-    "note": "",
-    "tags": ["knowledge", "beginner"],
-    "files": [
-      { "label": "Tải beatmap set", "url": "https://example.com/puzzle16.osz" }
-    ]
+    "name": "Perfecting the Smallest Details",
+    "content": "Pass any map with star rating between 3.0★ and 3.6★, length ≥ 167 seconds (after mod), using PF mod.",
+    "note": "Mod must include PF.",
+    "tags": [
+      "any map",
+      "mod:PF",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 16,
-    "name": "Puzzle 17 — Hit sound",
-    "content": "File .osu đính kèm dùng hitsound gì tại note đầu tiên? (Normal / Soft / Drum và Whistle / Finish / Clap / None)",
-    "note": "",
-    "tags": ["technical", "intermediate"],
+    "name": "Sudoku",
+    "content": "Solve the sudoku puzzle, then pass the listed maps with A rank or better.",
+    "note": "A+ rank required on all 3 maps.",
+    "tags": [
+      "pass",
+      "A+rank",
+      "intermediate"
+    ],
     "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle17.osu" }
-    ]
+      {
+        "label": "Solve Sudoku",
+        "url": "https://www.nextsudoku.com/play/000000005000700100000030940004050008009000003080060210010206000000000000897001050"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 17,
-    "name": "Puzzle 18 — Featured Artist",
-    "content": "Nghệ sĩ nào trong danh sách osu! Featured Artist có nhiều beatmap ranked nhất tính đến tháng 1/2024?",
+    "name": "Chilli~~ng~~",
+    "content": "I don't think Chemistry is chilling.\nPass any difficulty of C18H27NO3.",
     "note": "",
-    "tags": ["knowledge", "hard"],
-    "files": []
+    "tags": [
+      "pass",
+      "beginner"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 18,
-    "name": "Puzzle 19 — Storyboard",
-    "content": "File .osb đính kèm có bao nhiêu sprite được khai báo? Đếm số dòng bắt đầu bằng \"Sprite,\".",
+    "name": "Wait, this isn't the Dragonforce I know",
+    "content": "Pass this map. Unfortunate.",
     "note": "",
-    "tags": ["technical", "hard"],
-    "files": [
-      { "label": "Tải file .osb", "url": "https://example.com/puzzle19.osb" }
-    ]
+    "tags": [
+      "pass",
+      "expert"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 19,
-    "name": "Puzzle 20 — Note density",
-    "content": "Tính NPS (notes per second) trung bình của đoạn từ 01:00:000 đến 01:30:000 trong file .osu đính kèm.",
-    "note": "Làm tròn đến 2 chữ số thập phân.",
-    "tags": ["technical", "hard"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle20.osu" }
-    ]
+    "name": "Hybrid Hybrid Hybrid Hybrid Dancer Dancer Dancer Dancer",
+    "content": "extra extra extra extra mapped mapped mapped mapped by by by by pishi pishi pishi\nPass this map with accuracy ≥ 95%.",
+    "note": "Accuracy phải >= 95%.",
+    "tags": [
+      "acc>=95",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 20,
-    "name": "Puzzle 21 — Âm nhạc lý thuyết",
-    "content": "Nghe đoạn audio đính kèm và xác định key signature (ví dụ: C major, A minor, ...).",
-    "note": "",
-    "tags": ["audio", "hard"],
+    "name": "youtube.com/watch?v=kVNSfzMDzAM",
+    "content": "Pass Oddloop [oldnoob] +HD and Oddloop [oldloop] +NM, both with accuracy higher than the length of the video in seconds.",
+    "note": "Accuracy của từng map phải > 45%.",
+    "tags": [
+      "pass",
+      "acc>45",
+      "intermediate"
+    ],
     "files": [
-      { "label": "Nghe audio", "url": "https://example.com/puzzle21.mp3" }
-    ]
+      {
+        "label": "Watch video",
+        "url": "https://www.youtube.com/watch?v=kVNSfzMDzAM"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 21,
-    "name": "Puzzle 22 — Combo multiplier",
-    "content": "Giả sử bạn đạt full combo trên map đính kèm với toàn 300. Tổng score là bao nhiêu? (không mod)",
-    "note": "",
-    "tags": ["technical", "intermediate"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle22.osu" }
-    ]
+    "name": "Beat Him at His Own Game",
+    "content": "Snipe Mikani on this map with DT+HD.",
+    "note": "Mod required: DTHD. Score phải cao hơn Mikani.",
+    "tags": [
+      "snipe",
+      "mod:DTHD",
+      "expert"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 22,
-    "name": "Puzzle 23 — CS và hit circle",
-    "content": "Với CS=5, tính đường kính của hit circle theo đơn vị osu!pixel.",
-    "note": "Công thức: diameter = 108.848 - 8.9646 × CS",
-    "tags": ["technical", "intermediate"],
-    "files": []
+    "name": "osu! Daily",
+    "content": "Pass today's osu! daily quiz map with A rank or better.",
+    "note": "A+ rank required.",
+    "tags": [
+      "pass",
+      "A+rank",
+      "daily"
+    ],
+    "files": [
+      {
+        "label": "osu! Daily Quiz",
+        "url": "https://osu-daily-quiz.onrender.com"
+      }
+    ],
+    "hasAutoCheck": true
   },
   {
     "id": 23,
-    "name": "Puzzle 24 — Ranked date",
-    "content": "Beatmap \"Freedom Dive\" của xi được ranked vào ngày tháng năm nào? Nộp định dạng DD/MM/YYYY.",
+    "name": "bg",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["knowledge", "beginner"],
-    "files": []
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 24,
-    "name": "Puzzle 25 — Break point",
-    "content": "File .osu đính kèm có bao nhiêu break section? Nộp tổng số giây của tất cả các break cộng lại.",
-    "note": "",
-    "tags": ["technical", "intermediate"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle25.osu" }
-    ]
+    "name": "Music Genre",
+    "content": "Listen to the audio clip and find this genre on osu!, then pass the map with A rank or better.",
+    "note": "A+ rank required.",
+    "tags": [
+      "pass",
+      "A+rank",
+      "music",
+      "intermediate"
+    ],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 25,
-    "name": "Puzzle 26 — Mod combination",
-    "content": "Kết hợp DT + HR trên map có AR=9, OD=8. AR và OD mới sau khi áp mod là bao nhiêu?",
-    "note": "Nộp dạng: AR|OD",
-    "tags": ["technical", "hard"],
-    "files": []
+    "name": "Vortex",
+    "content": "Coming soon.",
+    "note": "",
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 26,
-    "name": "Puzzle 27 — Slider end",
-    "content": "Slider trong file đính kèm có bao nhiêu slider tick? Tính theo tick rate trong file.",
+    "name": "Puzzle 27",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["technical", "hard"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle27.osu" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 27,
-    "name": "Puzzle 28 — Skin element",
-    "content": "Skin đính kèm thiếu bao nhiêu element bắt buộc so với skin mặc định của osu!? Liệt kê tên file còn thiếu.",
+    "name": "Puzzle 28",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["visual", "hard"],
-    "files": [
-      { "label": "Tải skin", "url": "https://example.com/puzzle28.zip" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 28,
-    "name": "Puzzle 29 — Mania column",
-    "content": "File .osu mania đính kèm dùng key mode nào? Đếm số note ở mỗi cột và nộp dạng: C1|C2|C3|...",
+    "name": "Puzzle 29",
+    "content": "Coming soon.",
     "note": "",
-    "tags": ["technical", "intermediate"],
-    "files": [
-      { "label": "Tải file .osu", "url": "https://example.com/puzzle29.osu" }
-    ]
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   },
   {
     "id": 29,
-    "name": "Puzzle 30 — Grand Finale",
-    "content": "Kết hợp kiến thức từ tất cả các puzzle trước. File đính kèm là một beatmap bí ẩn — tìm ra tên bài, artist, mapper, ngày ranked và star rating chính xác.",
-    "note": "Nộp đầy đủ 5 thông tin, mỗi thông tin trên 1 dòng.",
-    "tags": ["knowledge", "technical", "audio", "hard"],
-    "files": [
-      { "label": "Tải beatmap bí ẩn", "url": "https://example.com/puzzle30.osz" }
-    ]
+    "name": "Puzzle 30",
+    "content": "Coming soon.",
+    "note": "",
+    "tags": [],
+    "files": [],
+    "hasAutoCheck": true
   }
 ]

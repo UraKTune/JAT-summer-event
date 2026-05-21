@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — JAT Summer Event</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-grid { display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; align-items: start; }
+    .admin-nav { position: sticky; top: 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+    .admin-nav-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.55rem 0.9rem; border-radius: var(--radius-sm);
+      border: none; background: transparent; cursor: pointer;
+      font-family: var(--font-body); font-size: 0.88rem;
+      color: var(--text2); text-align: left; transition: background 0.15s, color 0.15s;
+    }
+    .admin-nav-btn:hover { background: var(--bg2); color: var(--text); }
+    .admin-nav-btn.active { background: var(--bg3); color: var(--accent3); border: 1px solid rgba(0,212,255,0.2); }
+    .admin-nav-sep { height: 1px; background: var(--border); margin: 0.4rem 0; }
+
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* Stats cards */
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem 1.1rem;
+    }
+    .stat-val { font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: var(--accent3); }
+    .stat-lbl { font-size: 0.78rem; color: var(--text3); margin-top: 0.2rem; }
+
+    /* Toolbar */
+    .tb { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .tb select, .tb input {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.38rem 0.7rem;
+      color: var(--text); font-family: var(--font-body); font-size: 0.82rem;
+    }
+    .tb select:focus, .tb input:focus { outline: 1px solid var(--accent3); }
+
+    /* Table */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .data-table th {
+      background: var(--bg3); padding: 0.5rem 0.9rem; text-align: left;
+      font-family: var(--font-display); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase; color: var(--text3);
+      border-bottom: 1px solid var(--border); position: sticky; top: 0;
+    }
+    .data-table td { padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--bg3); }
+    .data-table .r { text-align: right; }
+
+    /* Level badges */
+    .badge {
+      font-size: 0.68rem; padding: 0.12rem 0.55rem; border-radius: 99px;
+      font-weight: 600; white-space: nowrap;
+    }
+    .badge-info  { background: rgba(0,212,255,0.1);  color: var(--accent3); }
+    .badge-warn  { background: rgba(255,209,102,0.1); color: var(--gold); }
+    .badge-error { background: rgba(255,87,87,0.1);   color: #ff5757; }
+
+    /* Log detail expand */
+    .log-detail {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3);
+      max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      cursor: pointer;
+    }
+    .log-detail.expanded { white-space: pre-wrap; word-break: break-all; max-width: none; }
+
+    /* Player table actions */
+    .action-btn {
+      font-size: 0.72rem; padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm); border: 1px solid var(--border);
+      background: transparent; cursor: pointer; color: var(--text2);
+      transition: background 0.12s, color 0.12s;
+    }
+    .action-btn:hover { background: var(--bg3); color: var(--text); }
+    .action-btn.danger:hover { border-color: #ff5757; color: #ff5757; background: rgba(255,87,87,0.07); }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
+    .page-btn {
+      padding: 0.3rem 0.7rem; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: transparent;
+      cursor: pointer; font-size: 0.8rem; color: var(--text2);
+    }
+    .page-btn:hover { background: var(--bg2); }
+    .page-btn.active { background: var(--bg3); color: var(--accent3); border-color: rgba(0,212,255,0.3); }
+    .page-info { font-size: 0.78rem; color: var(--text3); }
+
+    /* Modal */
+    .modal-bg {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); z-index: 100;
+      align-items: center; justify-content: center;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 1.5rem; width: 420px; max-width: 95vw;
+    }
+    .modal h3 { font-family: var(--font-display); font-size: 1rem; margin-bottom: 1rem; }
+    .modal label { font-size: 0.8rem; color: var(--text3); display: block; margin-bottom: 0.25rem; }
+    .modal input, .modal select {
+      width: 100%; background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.45rem 0.7rem;
+      color: var(--text); font-family: var(--font-body); font-size: 0.88rem;
+      box-sizing: border-box; margin-bottom: 0.75rem;
+    }
+    .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .no-access { text-align: center; padding: 5rem 1rem; color: var(--text3); }
+
+    @media(max-width:768px) {
+      .admin-grid { grid-template-columns: 1fr; }
+      .admin-nav { flex-direction: row; flex-wrap: wrap; position: static; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">Just A Team</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="puzzle.html">Puzzle</a>
+    <a href="competition.html">Competition</a>
+    <a href="leaderboard.html">Leaderboard</a>
+  </div>
+  <div id="nav-auth"></div>
+</nav>
+
+<main class="page">
+  <div id="no-access" class="no-access" style="display:none">
+    <div style="font-size:2.5rem">🔒</div>
+    <p style="margin-top:0.75rem;font-size:1rem">Bạn không có quyền truy cập trang này.</p>
+  </div>
+
+  <div id="admin-wrap" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+      <h1 class="section-title" style="margin:0">Admin Panel</h1>
+      <span id="admin-user" style="font-size:0.82rem;color:var(--text3)"></span>
+    </div>
+
+    <div class="admin-grid">
+      <!-- Sidebar nav -->
+      <div class="admin-nav">
+        <button class="admin-nav-btn active" onclick="showPanel('stats')">📊 Tổng quan</button>
+        <button class="admin-nav-btn" onclick="showPanel('logs')">📋 Logs</button>
+        <div class="admin-nav-sep"></div>
+        <button class="admin-nav-btn" onclick="showPanel('players')">👥 Players</button>
+        <button class="admin-nav-btn" onclick="showPanel('puzzles-admin')">🧩 Puzzle completions</button>
+        <button class="admin-nav-btn" onclick="showPanel('scores-admin')">🎯 Challenge scores</button>
+      </div>
+
+      <!-- Panels -->
+      <div>
+
+        <!-- Stats -->
+        <div id="panel-stats" class="admin-panel active">
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card"><div class="stat-val" id="st-players">—</div><div class="stat-lbl">Players</div></div>
+            <div class="stat-card"><div class="stat-val" id="st-puzzles">—</div><div class="stat-lbl">Puzzle completions</div></div>
+            <div class="stat-card"><div class="stat-val" id="st-scores">—</div><div class="stat-lbl">Challenge scores</div></div>
+            <div class="stat-card"><div class="stat-val" id="st-logs">—</div><div class="stat-lbl">Logs (24h)</div></div>
+          </div>
+          <div style="color:var(--text3);font-size:0.82rem;text-align:center;padding:1rem">
+            Chọn mục bên trái để xem chi tiết.
+          </div>
+        </div>
+
+        <!-- Logs -->
+        <div id="panel-logs" class="admin-panel">
+          <div class="tb">
+            <select id="log-level" onchange="loadLogs()">
+              <option value="">Tất cả level</option>
+              <option value="info">info</option>
+              <option value="warn">warn</option>
+              <option value="error">error</option>
+            </select>
+            <input id="log-action" type="text" placeholder="Lọc action..." oninput="debounceLoadLogs()" style="width:160px">
+            <input id="log-uid" type="text" placeholder="osu! UID..." oninput="debounceLoadLogs()" style="width:130px">
+            <button class="btn-primary" style="font-size:0.8rem;padding:0.38rem 0.8rem" onclick="loadLogs()">Tìm</button>
+            <span id="log-total" style="margin-left:auto;font-size:0.78rem;color:var(--text3)"></span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th style="width:140px">Thời gian</th>
+                <th style="width:60px">Level</th>
+                <th style="width:130px">Action</th>
+                <th style="width:100px">osu! ID</th>
+                <th>Detail</th>
+              </tr></thead>
+              <tbody id="logs-body"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text3)">Đang tải...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="log-pages"></div>
+        </div>
+
+        <!-- Players -->
+        <div id="panel-players" class="admin-panel">
+          <div class="tb">
+            <span style="font-size:0.82rem;color:var(--text3)" id="players-count"></span>
+            <button class="btn-primary" style="font-size:0.8rem;padding:0.38rem 0.8rem;margin-left:auto" onclick="loadPlayers()">↺ Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>osu! ID</th><th>Tên</th>
+                <th class="r">Puzzles</th><th class="r">Scores</th>
+                <th style="width:80px">Tham gia</th>
+                <th style="width:60px">Hành động</th>
+              </tr></thead>
+              <tbody id="players-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Puzzle completions -->
+        <div id="panel-puzzles-admin" class="admin-panel">
+          <div class="tb">
+            <button class="btn-primary" style="font-size:0.8rem;padding:0.38rem 0.8rem" onclick="openAddPuzzleModal()">+ Thêm thủ công</button>
+            <button class="btn-primary" style="font-size:0.8rem;padding:0.38rem 0.8rem;margin-left:auto" onclick="loadPuzzleCompletions()">↺ Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>osu! ID</th><th>Tên</th>
+                <th class="r">Puzzle ID</th>
+                <th>Thời gian</th>
+                <th style="width:60px"></th>
+              </tr></thead>
+              <tbody id="pz-completions-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Challenge scores -->
+        <div id="panel-scores-admin" class="admin-panel">
+          <div class="tb">
+            <button class="btn-primary" style="font-size:0.8rem;padding:0.38rem 0.8rem;margin-left:auto" onclick="loadChallengeScores()">↺ Refresh</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>osu! ID</th><th>Tên</th>
+                <th class="r">Challenge</th><th class="r">Score</th>
+                <th>Cập nhật</th>
+                <th style="width:60px"></th>
+              </tr></thead>
+              <tbody id="scores-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal thêm puzzle completion -->
+<div class="modal-bg" id="add-puzzle-modal">
+  <div class="modal">
+    <h3>Thêm puzzle completion thủ công</h3>
+    <label>osu! ID</label>
+    <input id="modal-osu-id" type="text" placeholder="12345678">
+    <label>Puzzle ID (0-based)</label>
+    <input id="modal-puzzle-id" type="number" min="0" placeholder="0">
+    <div class="modal-actions">
+      <button class="action-btn" onclick="closeModal()">Huỷ</button>
+      <button class="btn-primary" style="font-size:0.82rem;padding:0.38rem 0.8rem" onclick="submitAddPuzzle()">Thêm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="env.js"></script>
+<script src="app.js"></script>
+<script>
+const BE = ENV.BE_URL;
+
+// ── Auth check ────────────────────────────────────────────────
+async function checkAdmin() {
+  try {
+    const r = await fetch(`${BE}/auth/me`, { credentials: 'include' });
+    const d = await r.json();
+    if (!d.ok || !d.isAdmin) {
+      document.getElementById('no-access').style.display = 'block';
+      return false;
+    }
+    document.getElementById('admin-wrap').style.display = 'block';
+    document.getElementById('admin-user').textContent = `Đăng nhập: ${d.user.name}`;
+    return true;
+  } catch(e) {
+    document.getElementById('no-access').style.display = 'block';
+    return false;
+  }
+}
+
+// ── Panel switching ───────────────────────────────────────────
+const panelLoaders = {
+  'stats':         loadStats,
+  'logs':          loadLogs,
+  'players':       loadPlayers,
+  'puzzles-admin': loadPuzzleCompletions,
+  'scores-admin':  loadChallengeScores,
+};
+
+function showPanel(name) {
+  document.querySelectorAll('.admin-panel').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  event.currentTarget.classList.add('active');
+  panelLoaders[name]?.();
+}
+
+// ── Stats ─────────────────────────────────────────────────────
+async function loadStats() {
+  const r = await fetch(`${BE}/api/admin/stats`, { credentials: 'include' });
+  const d = await r.json();
+  if (!d.ok) return;
+  document.getElementById('st-players').textContent = d.players;
+  document.getElementById('st-puzzles').textContent = d.puzzles;
+  document.getElementById('st-scores').textContent  = d.scores;
+  document.getElementById('st-logs').textContent    = d.logs_24h;
+}
+
+// ── Logs ──────────────────────────────────────────────────────
+let logPage = 0;
+const LOG_LIMIT = 50;
+let logDebounce;
+
+function debounceLoadLogs() {
+  clearTimeout(logDebounce);
+  logDebounce = setTimeout(() => { logPage = 0; loadLogs(); }, 400);
+}
+
+async function loadLogs() {
+  const level  = document.getElementById('log-level').value;
+  const action = document.getElementById('log-action').value;
+  const uid    = document.getElementById('log-uid').value;
+  const qs = new URLSearchParams({
+    limit: LOG_LIMIT, offset: logPage * LOG_LIMIT,
+    ...(level  ? { level }  : {}),
+    ...(action ? { action } : {}),
+    ...(uid    ? { uid }    : {}),
+  });
+  const r = await fetch(`${BE}/api/admin/logs?${qs}`, { credentials: 'include' });
+  const d = await r.json();
+  if (!d.ok) return;
+
+  document.getElementById('log-total').textContent = `${d.total} log`;
+
+  const tbody = document.getElementById('logs-body');
+  if (!d.logs.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text3)">Không có log nào</td></tr>`;
+    document.getElementById('log-pages').innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = d.logs.map(l => `
+    <tr>
+      <td style="font-size:0.75rem;color:var(--text3)">${new Date(l.created_at).toLocaleString('vi-VN')}</td>
+      <td><span class="badge badge-${l.level}">${l.level}</span></td>
+      <td style="font-family:var(--font-mono);font-size:0.75rem">${l.action}</td>
+      <td style="font-family:var(--font-mono);font-size:0.75rem">${l.osu_id || '—'}</td>
+      <td><div class="log-detail" onclick="this.classList.toggle('expanded')">${JSON.stringify(l.detail)}</div></td>
+    </tr>`).join('');
+
+  // Pagination
+  const totalPages = Math.ceil(d.total / LOG_LIMIT);
+  const pages = document.getElementById('log-pages');
+  if (totalPages <= 1) { pages.innerHTML = ''; return; }
+
+  let btns = '';
+  for (let i = 0; i < totalPages; i++) {
+    btns += `<button class="page-btn ${i===logPage?'active':''}" onclick="setLogPage(${i})">${i+1}</button>`;
+  }
+  pages.innerHTML = `<span class="page-info">Trang ${logPage+1}/${totalPages}</span>${btns}`;
+}
+
+function setLogPage(n) { logPage = n; loadLogs(); }
+
+// ── Players ───────────────────────────────────────────────────
+async function loadPlayers() {
+  const r = await fetch(`${BE}/api/admin/players`, { credentials: 'include' });
+  const d = await r.json();
+  if (!d.ok) return;
+  document.getElementById('players-count').textContent = `${d.players.length} players`;
+  document.getElementById('players-body').innerHTML = d.players.map(p => `
+    <tr>
+      <td style="font-family:var(--font-mono);font-size:0.75rem">
+        <a href="https://osu.ppy.sh/users/${p.osu_id}" target="_blank" style="color:var(--accent3)">${p.osu_id}</a>
+      </td>
+      <td>${p.name}</td>
+      <td class="r">${p.puzzle_count}</td>
+      <td class="r">${p.score_count}</td>
+      <td style="font-size:0.72rem;color:var(--text3)">${new Date(p.created_at).toLocaleDateString('vi-VN')}</td>
+      <td><button class="action-btn" onclick="viewPlayer('${p.osu_id}','${p.name}')">Chi tiết</button></td>
+    </tr>`).join('');
+}
+
+function viewPlayer(uid, name) {
+  window.open(`https://osu.ppy.sh/users/${uid}`, '_blank');
+}
+
+// ── Puzzle completions ────────────────────────────────────────
+async function loadPuzzleCompletions() {
+  const r = await fetch(`${BE}/api/admin/players`, { credentials: 'include' });
+  const d = await r.json();
+  if (!d.ok) return;
+
+  // Lấy tất cả completions qua leaderboard/full
+  const r2 = await fetch(`${BE}/api/leaderboard/full`, { credentials: 'include' });
+  const d2 = await r2.json();
+
+  // Build từ player data
+  const rows = [];
+  for (const pl of d.players) {
+    const r3 = await fetch(`${BE}/api/player/${pl.osu_id}`, { credentials: 'include' });
+    const d3 = await r3.json();
+    if (!d3.ok) continue;
+    d3.data.quizzes.forEach((done, i) => {
+      if (done) rows.push({ osu_id: pl.osu_id, name: pl.name, puzzle_id: i });
+    });
+  }
+
+  document.getElementById('pz-completions-body').innerHTML = rows.length
+    ? rows.map(r => `
+        <tr>
+          <td style="font-family:var(--font-mono);font-size:0.75rem">${r.osu_id}</td>
+          <td>${r.name}</td>
+          <td class="r">${r.puzzle_id}</td>
+          <td style="font-size:0.72rem;color:var(--text3)">—</td>
+          <td><button class="action-btn danger" onclick="deletePuzzleCompletion('${r.osu_id}',${r.puzzle_id},this)">Xoá</button></td>
+        </tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text3)">Chưa có completion nào</td></tr>`;
+}
+
+async function deletePuzzleCompletion(osu_id, puzzle_id, btn) {
+  if (!confirm(`Xoá puzzle ${puzzle_id} của ${osu_id}?`)) return;
+  btn.disabled = true;
+  const r = await fetch(`${BE}/api/admin/puzzle`, {
+    method: 'DELETE', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ osu_id, puzzle_id }),
+  });
+  const d = await r.json();
+  if (d.ok) { showToast('Đã xoá', 'success'); loadPuzzleCompletions(); }
+  else { showToast(d.msg || 'Lỗi', 'error'); btn.disabled = false; }
+}
+
+function openAddPuzzleModal() {
+  document.getElementById('add-puzzle-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('add-puzzle-modal').classList.remove('open');
+}
+async function submitAddPuzzle() {
+  const osu_id   = document.getElementById('modal-osu-id').value.trim();
+  const puzzle_id = parseInt(document.getElementById('modal-puzzle-id').value);
+  if (!osu_id || isNaN(puzzle_id)) { showToast('Điền đầy đủ thông tin', 'error'); return; }
+  const r = await fetch(`${BE}/api/admin/puzzle`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ osu_id, puzzle_id }),
+  });
+  const d = await r.json();
+  if (d.ok) { showToast('Đã thêm', 'success'); closeModal(); loadPuzzleCompletions(); }
+  else showToast(d.msg || 'Lỗi', 'error');
+}
+
+// ── Challenge scores ──────────────────────────────────────────
+async function loadChallengeScores() {
+  const r = await fetch(`${BE}/api/leaderboard/challenges`, { credentials: 'include' });
+  const d = await r.json();
+  if (!d.ok) return;
+
+  const rows = [];
+  d.data.forEach(pl => {
+    pl.scores.forEach((s, i) => {
+      if (s > 0) rows.push({ osu_id: pl.osu_id, name: pl.name, challenge_id: i, score: s });
+    });
+  });
+
+  const LABELS = ['Tổng Score','Số miss','Accuracy (%)','Tổng Score','Số lượng 50'];
+  document.getElementById('scores-body').innerHTML = rows.length
+    ? rows.map(r => `
+        <tr>
+          <td style="font-family:var(--font-mono);font-size:0.75rem">${r.osu_id}</td>
+          <td>${r.name}</td>
+          <td class="r">C${r.challenge_id} — ${LABELS[r.challenge_id]||''}</td>
+          <td class="r" style="font-family:var(--font-display);font-weight:700;color:var(--accent3)">${r.score}</td>
+          <td style="font-size:0.72rem;color:var(--text3)">—</td>
+          <td><button class="action-btn danger" onclick="deleteScore('${r.osu_id}',${r.challenge_id},this)">Xoá</button></td>
+        </tr>`).join('')
+    : `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3)">Chưa có score nào</td></tr>`;
+}
+
+async function deleteScore(osu_id, challenge_id, btn) {
+  if (!confirm(`Xoá score challenge ${challenge_id} của ${osu_id}?`)) return;
+  btn.disabled = true;
+  const r = await fetch(`${BE}/api/admin/score`, {
+    method: 'DELETE', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ osu_id, challenge_id }),
+  });
+  const d = await r.json();
+  if (d.ok) { showToast('Đã xoá', 'success'); loadChallengeScores(); }
+  else { showToast(d.msg || 'Lỗi', 'error'); btn.disabled = false; }
+}
+
+// ── Init ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  const ok = await checkAdmin();
+  if (ok) loadStats();
+});
+</script>
+</body>
+</html>

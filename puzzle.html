@@ -202,12 +202,12 @@
         ?`<div class="pz-files">${p.files.map(f=>`<a class="file-link" href="${f.url}" target="_blank">↗ ${f.label}</a>`).join('')}</div>`:'';
 
       let actionHtml;
-      if(!user){
-        actionHtml=`<span style="font-size:0.8rem;color:var(--text3)">Đăng nhập để tham gia</span>`;
-      } else if(done){
-        actionHtml=`<span style="font-size:0.82rem;color:var(--green)">✓ Hoàn thành</span>`;
+      if (!user) {
+        actionHtml = `<span style="font-size:0.8rem;color:var(--text3)">Đăng nhập để xem trạng thái</span>`;
+      } else if (done) {
+        actionHtml = `<span style="font-size:0.82rem;color:var(--green)">✓ Hoàn thành</span>`;
       } else {
-        actionHtml=`<button class="btn-primary btn-complete" onclick="completePuzzle(${p.id},this)">Đánh dấu xong</button>`;
+        actionHtml = `<span style="font-size:0.8rem;color:var(--text3)">Chưa hoàn thành</span>`;
       }
 
       const bodyHtml=isOpen?`<div class="pz-body">
@@ -245,19 +245,6 @@
   }
 
   function togglePuzzle(id){expanded[id]=!expanded[id];renderList(filteredPuzzles);}
-
-  async function completePuzzle(puzzleIndex,btn){
-    btn.disabled=true;btn.textContent='Đang lưu...';
-    const res=await markPuzzle(puzzleIndex);
-    if(res&&res.ok){
-      completedSet.add(puzzleIndex);
-      showToast('✓ Đã đánh dấu hoàn thành!','success');
-      renderList(filteredPuzzles);
-    }else{
-      showToast(res?.msg||'Có lỗi xảy ra, thử lại sau.','error');
-      btn.disabled=false;btn.textContent='Đánh dấu xong';
-    }
-  }
 
   document.getElementById('search-input').addEventListener('input',function(){
     const q=this.value.toLowerCase().trim();

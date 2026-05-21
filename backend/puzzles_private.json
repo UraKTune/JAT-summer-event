@@ -1,0 +1,532 @@
+[
+  {
+    "id": 0,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P0",
+        "conditions": [
+          {
+            "type": "score",
+            "op": "gt",
+            "value": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "requirements": [
+      {
+        "beatmapId": "813987",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      },
+      {
+        "beatmapId": "3963608",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      },
+      {
+        "beatmapId": "3949136",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      },
+      {
+        "beatmapId": "361650",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "requirements": [
+      {
+        "beatmapId": "4927338",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_HCI2_GF_TB",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P4",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P5",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P6",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "requirements": [
+      {
+        "beatmapId": "2141086",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "requirements": [
+      {
+        "beatmapId": "6872",
+        "conditions": [
+          {
+            "type": "score",
+            "op": "gt",
+            "value": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "requirements": [
+      {
+        "beatmapId": "5037176",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "requirements": [
+      {
+        "beatmapId": "111680",
+        "conditions": [
+          {
+            "type": "mod",
+            "op": "eq",
+            "value": "DT"
+          },
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "requirements": [
+      {
+        "beatmapId": "1538458",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      },
+      {
+        "beatmapId": "1043346",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P12",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P13",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "requirements": [
+      {
+        "beatmapId": "4512510",
+        "conditions": [
+          {
+            "type": "mod",
+            "op": "eq",
+            "value": "HR"
+          },
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P15",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "requirements": [
+      {
+        "beatmapId": "4371143",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "gte",
+            "value": "A"
+          }
+        ]
+      },
+      {
+        "beatmapId": "3764198",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "gte",
+            "value": "A"
+          }
+        ]
+      },
+      {
+        "beatmapId": "4625973",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "gte",
+            "value": "A"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_C18H27NO3",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "requirements": [
+      {
+        "beatmapId": "3441410",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "requirements": [
+      {
+        "beatmapId": "1863918",
+        "conditions": [
+          {
+            "type": "accuracy",
+            "op": "gte",
+            "value": 95
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "requirements": [
+      {
+        "beatmapId": "1142960",
+        "conditions": [
+          {
+            "type": "accuracy",
+            "op": "gt",
+            "value": 45
+          }
+        ]
+      },
+      {
+        "beatmapId": "1137879",
+        "conditions": [
+          {
+            "type": "accuracy",
+            "op": "gt",
+            "value": 45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P21",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "requirements": [
+      {
+        "beatmapId": "5399404",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "gte",
+            "value": "A"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P23",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "requirements": [
+      {
+        "beatmapId": "297411",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "gte",
+            "value": "A"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P25",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P26",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P27",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P28",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "requirements": [
+      {
+        "beatmapId": "PLACEHOLDER_P29",
+        "conditions": [
+          {
+            "type": "grade",
+            "op": "eq",
+            "value": "D"
+          }
+        ]
+      }
+    ]
+  }
+]

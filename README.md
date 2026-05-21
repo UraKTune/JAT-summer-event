@@ -1,2 +1,2 @@
-# JAT-summer-event
-
+# JAT Summer Event
+Just A Team event

@@ -1,52 +1,62 @@
 [
   {
     "id": 0,
-    "name": "Challenge 1 — High Score",
+    "name": "math master",
+    "content": "Compete for the highest score on this map.\nMath skills required.",
+    "note": "",
     "scoreLabel": "Tổng Score",
-    "content": "Chơi map bên dưới và đạt tổng score cao nhất. Tải scores từ osu! và chọn lần chơi tốt nhất.",
-    "note": "Không được dùng mod tăng score (DT, HR).",
-    "files": [
-      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_1" }
-    ]
+    "mode": "osu!",
+    "type": "Competition",
+    "client": "Stable",
+    "tags": ["score", "math"],
+    "files": []
   },
   {
     "id": 1,
-    "name": "Challenge 2 — Full Combo",
+    "name": "DD-rank (Knight of Night)",
+    "content": "Get the lowest miss count on this map.\nThe fewer misses, the better.",
+    "note": "Số miss càng ít càng tốt.",
     "scoreLabel": "Số miss",
-    "content": "Chơi map bên dưới và cố gắng có ít miss nhất. Tải scores và chọn lần có ít miss nhất.",
-    "note": "Nộp đúng số miss (X), không phải slider break.",
-    "files": [
-      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_2" }
-    ]
+    "mode": "osu!",
+    "type": "Competition",
+    "client": "Stable",
+    "tags": ["miss", "intermediate"],
+    "files": []
   },
   {
     "id": 2,
-    "name": "Challenge 3 — Accuracy",
-    "scoreLabel": "Accuracy (%)",
-    "content": "Chơi map bên dưới và đạt accuracy cao nhất. Tải scores và chọn lần có accuracy cao nhất.",
-    "note": "Hiển thị đến 2 chữ số thập phân. VD: 97.83",
-    "files": [
-      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_3" }
-    ]
+    "name": "PFC map combo cao nhất có thể",
+    "content": "Get a perfect full combo on this map.\nHighest total score wins.",
+    "note": "Phải FC. Tổng score cao nhất thắng.",
+    "scoreLabel": "Tổng Score",
+    "mode": "osu!",
+    "type": "Competition",
+    "client": "Stable",
+    "tags": ["FC", "score", "expert"],
+    "files": []
   },
   {
     "id": 3,
-    "name": "Challenge 4 — Max Combo",
-    "scoreLabel": "Max Combo",
-    "content": "Chơi map bên dưới và đạt max combo cao nhất. Tải scores và chọn lần có combo cao nhất.",
-    "note": "Xem max combo ở góc trên bên trái màn hình kết quả.",
-    "files": [
-      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_4" }
-    ]
+    "name": "Spin to Win",
+    "content": "Compete for the highest score on this map.\nSpinners are key.",
+    "note": "",
+    "scoreLabel": "Tổng Score",
+    "mode": "osu!",
+    "type": "Competition",
+    "client": "Stable",
+    "tags": ["spinner", "score"],
+    "files": []
   },
   {
     "id": 4,
-    "name": "Challenge 5 — Speed Run",
-    "scoreLabel": "Thời gian (giây)",
-    "content": "Hoàn thành map bên dưới với mod DT nhanh nhất. Tải scores và chọn lần nhanh nhất.",
-    "note": "Bắt buộc dùng mod DT.",
-    "files": [
-      { "label": "Link map osu!", "url": "https://osu.ppy.sh/beatmaps/BEATMAP_ID_5" }
-    ]
+    "name": "Jack of All Trades",
+    "content": "Set 4 consecutive plays (fails excluded), 1 per mode on the same beatmap difficulty, and minimize the quantity (stdev score)/(average score).\n(Basically, try to get as close to having the same score over the four plays as possible)",
+    "note": "Ranked/Approved maps only, stable only, and any mods except for NF are permitted.",
+    "scoreLabel": "Số lượng 50",
+    "mode": "Any",
+    "type": "Competition",
+    "client": "Stable",
+    "tags": ["consistency", "expert", "any mode"],
+    "files": []
   }
 ]
