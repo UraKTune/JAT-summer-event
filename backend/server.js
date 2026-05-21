@@ -162,7 +162,11 @@ app.get('/callback', async (req, res) => {
   const params = new URLSearchParams({
     auth: 'success', uid: user.id, name: user.username, avatar: user.avatar_url || '',
   }).toString();
-  res.redirect(`${dest}?${params}`);
+
+  req.session.save(err => {
+    if (err) console.error('session save error:', err);
+    res.redirect(`${dest}?${params}`);
+  });
 });
 
 app.post('/auth/logout', (req, res) => {
