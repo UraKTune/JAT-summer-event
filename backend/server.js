@@ -27,7 +27,10 @@ function isAdmin(uid) { return ADMIN_UIDS.has(String(uid)); }
 
 // ── Middleware ────────────────────────────────────────────────
 app.use(express.json());
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+const corsOrigin = process.env.FRONTEND_URL
+  ? new URL(process.env.FRONTEND_URL).origin
+  : '*';
+app.use(cors({ origin: corsOrigin, credentials: true }));
 app.use(session({
   store: new PgSession({ pool, createTableIfMissing: true }),
   secret:            process.env.SESSION_SECRET || 'change-me',
