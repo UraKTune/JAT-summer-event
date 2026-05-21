@@ -106,9 +106,11 @@ app.get('/auth/login', (req, res) => {
 
 app.get('/callback', async (req, res) => {
   const { code, state } = req.query;
-  const from = state || req.session.oauthFrom || 'index.html';
+  const from = state || req.session.oauthFrom || '';
   const base = process.env.FRONTEND_URL.replace(/\/$/, '');
-  if (!code) return res.redirect(`${base}/${from}?auth=error&msg=Missing+code`);
+  // Nếu from là index.html thì redirect về root, tránh /index.html not found
+  const dest = (!from || from === 'index.html') ? base : `${base}/${from}`;
+  if (!code) return res.redirect(`${dest}?auth=error&msg=Missing+code`);
 
   let tok;
   try {
@@ -122,12 +124,12 @@ app.get('/callback', async (req, res) => {
     tok = await r.json();
   } catch(e) {
     await log('error', 'auth_callback', null, { msg: e.message });
-    return res.redirect(`${base}/${from}?auth=error&msg=Token+exchange+failed`);
+    return res.redirect(`${dest}?auth=error&msg=Token+exchange+failed`);
   }
 
   if (!tok.access_token) {
     await log('error', 'auth_no_token', null, { response: tok });
-    return res.redirect(`${base}/${from}?auth=error&msg=No+access+token`);
+    return res.redirect(`${dest}?auth=error&msg=No+access+token`);
   }
 
   let user;
@@ -137,10 +139,10 @@ app.get('/callback', async (req, res) => {
     });
     user = await r.json();
   } catch(e) {
-    return res.redirect(`${base}/${from}?auth=error&msg=Failed+to+fetch+user`);
+    return res.redirect(`${dest}?auth=error&msg=Failed+to+fetch+user`);
   }
 
-  if (!user?.id) return res.redirect(`${base}/${from}?auth=error&msg=Invalid+user+data`);
+  if (!user?.id) return res.redirect(`${dest}?auth=error&msg=Invalid+user+data`);
 
   req.session.user = { uid: String(user.id), name: user.username, avatar: user.avatar_url || '' };
 
@@ -156,7 +158,7 @@ app.get('/callback', async (req, res) => {
   const params = new URLSearchParams({
     auth: 'success', uid: user.id, name: user.username, avatar: user.avatar_url || '',
   }).toString();
-  res.redirect(`${base}/${from}?${params}`);
+  res.redirect(`${dest}?${params}`);
 });
 
 app.post('/auth/logout', (req, res) => {
