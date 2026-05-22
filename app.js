@@ -17,6 +17,7 @@ const LS = {
   UID:          'osu_uid',
   NAME:         'osu_name',
   AVATAR:       'osu_avatar',
+  TOKEN:        'osu_token',
   LB_CACHE:     'lb_cache',
   LB_TIMESTAMP: 'lb_last_changed',
 };
@@ -25,10 +26,11 @@ const LS = {
 // AUTH
 // ============================================================
 
-function saveUser(uid, name, avatar) {
+function saveUser(uid, name, avatar, token='') {
   localStorage.setItem(LS.UID,    String(uid));
   localStorage.setItem(LS.NAME,   name);
   localStorage.setItem(LS.AVATAR, avatar);
+  if (token) localStorage.setItem(LS.TOKEN, token);
 }
 
 function getUser() {
@@ -42,10 +44,8 @@ function getUser() {
 }
 
 function logout() {
-  // Xóa localStorage
   Object.values(LS).forEach(k => localStorage.removeItem(k));
-  // Xóa session cookie phía BE
-  fetch(BE + '/auth/logout', { method: 'POST', credentials: 'include' })
+  fetch(BE + '/auth/logout', { method: 'POST' })
     .finally(() => { window.location.href = 'index.html'; });
 }
 
@@ -65,8 +65,9 @@ function checkAuthCallback() {
     const uid    = params.get('uid')    || '';
     const name   = params.get('name')   || '';
     const avatar = params.get('avatar') || '';
+    const token = params.get('token') || '';
     if (uid) {
-      saveUser(uid, name, avatar);
+      saveUser(uid, name, avatar, token);
       showToast('✓ Xin chào ' + name + '!', 'success');
     }
   } else if (auth === 'error') {
@@ -76,11 +77,14 @@ function checkAuthCallback() {
   history.replaceState({}, '', window.location.pathname);
 }
 
-// Kiểm tra session với BE — dùng khi cần xác nhận chắc chắn
-// (không cần gọi mỗi trang — chỉ gọi khi action quan trọng)
+// Kiểm tra token với BE
 async function checkSession() {
   try {
-    const res = await fetch(BE + '/auth/me', { credentials: 'include' });
+    const token = getToken();
+    if (!token) return false;
+    const res = await fetch(BE + '/auth/me', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
     if (!res.ok) return false;
     const data = await res.json();
     return data.ok === true;
@@ -109,12 +113,23 @@ async function requireAuth() {
 // API HELPERS — gọi BE (Express)
 // ============================================================
 
+function getToken() {
+  return localStorage.getItem(LS.TOKEN) || '';
+}
+
+function authHeaders(extra = {}) {
+  const token = getToken();
+  return token
+    ? { 'Authorization': 'Bearer ' + token, ...extra }
+    : { ...extra };
+}
+
 async function apiGet(path, params = {}) {
   const qs  = Object.keys(params).length
     ? '?' + new URLSearchParams(params).toString()
     : '';
   try {
-    const res  = await fetch(BE + path + qs, { credentials: 'include' });
+    const res  = await fetch(BE + path + qs, { headers: authHeaders() });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     return await res.json();
   } catch (e) {
@@ -126,14 +141,12 @@ async function apiGet(path, params = {}) {
 async function apiPost(path, body = {}) {
   try {
     const res = await fetch(BE + path, {
-      method:      'POST',
-      headers:     { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body:        JSON.stringify(body),
+      method:  'POST',
+      headers: authHeaders({ 'Content-Type': 'application/json' }),
+      body:    JSON.stringify(body),
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    // Session hết hạn → yêu cầu login lại
     if (data?.code === 'AUTH_REQUIRED') {
       showToast('Phiên đăng nhập hết hạn.', 'error');
       setTimeout(loginWithOsu, 1500);
@@ -148,12 +161,6 @@ async function apiPost(path, body = {}) {
 // Lấy dữ liệu player (quiz + scores)
 async function fetchPlayerData(uid) {
   return apiGet(`/api/player/${uid}`);
-}
-
-// Đánh dấu hoàn thành puzzle
-async function markPuzzle(puzzleIndex) {
-  if (!(await requireAuth())) return null;
-  return apiPost('/api/puzzle/mark', { puzzleIndex });
 }
 
 // Submit score — BE tự lấy plays từ osu! API

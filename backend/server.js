@@ -7,16 +7,16 @@
 
 import 'dotenv/config';
 import express   from 'express';
-import session   from 'express-session';
+
 import cors      from 'cors';
 import fetch     from 'node-fetch';
-import pgSession from 'connect-pg-simple';
+
+import jwt from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { pool, initDB, log } from './db.js';
 
 const app       = express();
-const PgSession = pgSession(session);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ── Admin UIDs ────────────────────────────────────────────────
@@ -31,28 +31,33 @@ const corsOrigin = process.env.FRONTEND_URL
   ? new URL(process.env.FRONTEND_URL).origin
   : '*';
 app.use(cors({ origin: corsOrigin, credentials: true }));
-app.use(session({
-  store: new PgSession({ pool, createTableIfMissing: true }),
-  secret:            process.env.SESSION_SECRET || 'change-me',
-  resave:            false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure:   process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge:   7 * 24 * 60 * 60 * 1000,
-  },
-}));
+
+const JWT_SECRET = process.env.SESSION_SECRET || 'change-me';
+
+function signToken(user) {
+  return jwt.sign(user, JWT_SECRET, { expiresIn: '7d' });
+}
+
+function verifyToken(req) {
+  const auth = req.headers.authorization || '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  if (!token) return null;
+  try { return jwt.verify(token, JWT_SECRET); }
+  catch(e) { return null; }
+}
 
 // ── Guards ────────────────────────────────────────────────────
 function auth(req, res, next) {
-  if (!req.session?.user)
-    return res.status(401).json({ ok: false, code: 'AUTH_REQUIRED', msg: 'Chưa đăng nhập' });
+  const user = verifyToken(req);
+  if (!user) return res.status(401).json({ ok: false, code: 'AUTH_REQUIRED', msg: 'Chưa đăng nhập' });
+  req.user = user;
   next();
 }
 function adminOnly(req, res, next) {
-  if (!req.session?.user || !isAdmin(req.session.user.uid))
+  const user = verifyToken(req);
+  if (!user || !isAdmin(user.uid))
     return res.status(403).json({ ok: false, msg: 'Không có quyền' });
+  req.user = user;
   next();
 }
 
@@ -99,7 +104,7 @@ function extractVal(play, scoreType) {
 
 app.get('/auth/login', (req, res) => {
   const from = req.query.from || 'index.html';
-  req.session.oauthFrom = from;
+  req.query.from = from;
   const qs = new URLSearchParams({
     client_id: process.env.OSU_CLIENT_ID,
     redirect_uri: process.env.OSU_REDIRECT_URI,
@@ -110,7 +115,7 @@ app.get('/auth/login', (req, res) => {
 
 app.get('/callback', async (req, res) => {
   const { code, state } = req.query;
-  const from = state || req.session.oauthFrom || '';
+  const from = state || req.query.from || '';
   const base = process.env.FRONTEND_URL.replace(/\/$/, '');
   // Nếu from là index.html thì redirect về root, tránh /index.html not found
   const dest = (!from || from === 'index.html') ? base : `${base}/${from}`;
@@ -148,7 +153,8 @@ app.get('/callback', async (req, res) => {
 
   if (!user?.id) return res.redirect(`${dest}?auth=error&msg=Invalid+user+data`);
 
-  req.session.user = { uid: String(user.id), name: user.username, avatar: user.avatar_url || '' };
+  const userData = { uid: String(user.id), name: user.username, avatar: user.avatar_url || '' };
+  const token = signToken(userData);
 
   await pool.query(
     `INSERT INTO players (osu_id, name, avatar)
@@ -160,25 +166,22 @@ app.get('/callback', async (req, res) => {
   await log('info', 'login', String(user.id), { name: user.username });
 
   const params = new URLSearchParams({
-    auth: 'success', uid: user.id, name: user.username, avatar: user.avatar_url || '',
+    auth: 'success', uid: user.id, name: user.username,
+    avatar: user.avatar_url || '', token,
   }).toString();
-
-  req.session.save(err => {
-    if (err) console.error('session save error:', err);
-    res.redirect(`${dest}?${params}`);
-  });
+  res.redirect(`${dest}?${params}`);
 });
 
 app.post('/auth/logout', (req, res) => {
-  req.session.destroy();
+  // JWT stateless — client xóa token khỏi localStorage
   res.json({ ok: true });
 });
 
 app.get('/auth/me', auth, (req, res) => {
   res.json({
     ok: true,
-    user: req.session.user,
-    isAdmin: isAdmin(req.session.user.uid),
+    user: req.user,
+    isAdmin: isAdmin(req.user.uid),
   });
 });
 
@@ -317,7 +320,7 @@ app.post('/api/score/submit', auth, async (req, res) => {
   if (!cfg)           return res.status(400).json({ ok: false, msg: 'Challenge không tồn tại' });
   if (!cfg.beatmapId) return res.status(500).json({ ok: false, msg: `BEATMAP_ID_${challengeIndex} chưa set` });
 
-  const uid = req.session.user.uid;
+  const uid = req.user.uid;
 
   let token;
   try { token = await getOsuToken(); }
@@ -428,7 +431,7 @@ app.delete('/api/admin/score', auth, adminOnly, async (req, res) => {
     `DELETE FROM challenge_scores WHERE osu_id=$1 AND challenge_id=$2`,
     [osu_id, parseInt(challenge_id)]
   );
-  await log('warn', 'admin_delete_score', req.session.user.uid, { target: osu_id, challenge_id });
+  await log('warn', 'admin_delete_score', req.user.uid, { target: osu_id, challenge_id });
   res.json({ ok: true });
 });
 
@@ -441,7 +444,7 @@ app.delete('/api/admin/puzzle', auth, adminOnly, async (req, res) => {
     `DELETE FROM puzzle_completions WHERE osu_id=$1 AND puzzle_id=$2`,
     [osu_id, parseInt(puzzle_id)]
   );
-  await log('warn', 'admin_delete_puzzle', req.session.user.uid, { target: osu_id, puzzle_id });
+  await log('warn', 'admin_delete_puzzle', req.user.uid, { target: osu_id, puzzle_id });
   res.json({ ok: true });
 });
 
@@ -454,7 +457,7 @@ app.post('/api/admin/puzzle', auth, adminOnly, async (req, res) => {
     `INSERT INTO puzzle_completions (osu_id, puzzle_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
     [osu_id, parseInt(puzzle_id)]
   );
-  await log('warn', 'admin_add_puzzle', req.session.user.uid, { target: osu_id, puzzle_id });
+  await log('warn', 'admin_add_puzzle', req.user.uid, { target: osu_id, puzzle_id });
   res.json({ ok: true });
 });
 
